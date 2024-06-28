@@ -75,7 +75,7 @@ class Gateway extends AbstractGateway
 
     public function purchase(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\Mpesa\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaPurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = [])
