@@ -1,2 +1,2 @@
 # omnipay-mpesa
-Alias omnipay mpesa
+Alias wasksofts/omnipay mpesa
