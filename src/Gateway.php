@@ -16,10 +16,10 @@ class Gateway extends AbstractGateway
         return [
             'consumer_key' => '',
             'consumer_secret' => '',
+            'token' => '',
             'storenumber' => '',
             'pt_number' => '',
             'passkey' => '',
-            'token' => '',
             'testMode' => false,
         ];
     }
@@ -151,6 +151,18 @@ class Gateway extends AbstractGateway
         }
         return !empty($token) && time() < $expires;
     }
+
+    public function createRequest($class, array $parameters = array())
+    {
+        if (!$this->hasToken() && $class != '\Omnipay\Mpesa\Message\MpesaTokenRequest') {
+            // This will set the internal token parameter which the parent
+            // createRequest will find when it calls getParameters().
+            $this->getToken(true);
+        }
+
+        return parent::createRequest($class, $parameters);
+    }
+
 
     public function payment(array $parameters = [])
     {
