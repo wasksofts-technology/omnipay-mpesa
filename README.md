@@ -26,13 +26,13 @@ Just want to see some code?
       $gateway->setPassKey('');
       $gateway->setTestMode('sandbox'); 
 
-          $purchase = $gateway->purchase(array(
+          $response = $gateway->purchase(array(
              'amount' => '100',
              'phone_number' => '254708374149',
              'account' => 'apitest',
              'description' => 'This is a purchase',
              'callbackUrl' => 'https://example.com/callback_url.php',
-           ));
+           ))->send();
            
            
            if ($response->isSuccessful()) {
