@@ -15,8 +15,8 @@ this API has no Validation-Confirmation process like the previous C2B API.
 ## TL;DR
 Just want to see some code? 
 
-      use Omnipay\Omnipay;
-      use Omnipay\Mpesa;
+```php
+use Omnipay\Omnipay;
 
       $gateway = Omnipay::create('Mpesa');
       $gateway->setStoreNumber('174379');
