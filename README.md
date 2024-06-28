@@ -19,7 +19,8 @@ Just want to see some code?
       use Omnipay\Mpesa;
 
       $gateway = Omnipay::create('Mpesa');
-      $gateway->setShortCode('174379');
+      $gateway->setStoreNumber('174379');
+      $gateway->setPTNumber('174379'); //paybill number or TILL number
       $gateway->setConsumerKey('');
       $gateway->setConsumerSecret('');
       $gateway->setPassKey('');
@@ -35,8 +36,7 @@ Just want to see some code?
            
            
            if ($response->isSuccessful()) {
-                 echo "Input your pin to purchase!";
-
+                 echo "Check phone and Input your pin to purchase!";
            }else{
                // Payment failed
                return $response->getMessage();
