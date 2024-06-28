@@ -11,7 +11,6 @@ use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
  */
 abstract class AbstractRequest extends BaseAbstractRequest
 {
-    const STKPUSH  = 'mpesa/stkpush/v1/processrequest';
     /**
      * Live Endpoint URL
      *
@@ -85,34 +84,18 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('passkey', $value);
     }
 
-    protected function getBaseData()
-    {
-        $data = array();
-        return $data;
-    }
-
-    protected function getItemData()
-    {
-        $data = array();
-        $items = $this->getItems();
-
-        return $data;
-    }
-    /**
-     * Get HTTP Method.
-     *
-     * This is nearly always POST but can be over-ridden in sub classes.
-     *
-     * @return string
-     */
-    protected function getHttpMethod()
-    {
-        return 'POST';
-    }
-
     protected function getEndpoint()
     {
-        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        return ($this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint);
+    }
+    public function getToken()
+    {
+        return $this->getParameter('token');
+    }
+
+    public function setToken($value)
+    {
+        return $this->setParameter('token', $value);
     }
 
     public function sendData($data)
@@ -121,13 +104,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
         // a bit fussy about data formats and ordering.  Perhaps hook to whatever
         // logging engine is being used.
         $body = $this->toJSON($data);
+        $token = $this->getToken();
         try {
             $httpResponse = $this->httpClient->request(
-                $this->getHttpMethod(),
-                $this->getEndpoint(),
+                'POST',
+                $this->getEndpoint() . 'mpesa/stkpush/v1/processrequest',
                 [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $this->getToken(),
+                    'Authorization' => 'Bearer ' . $token,
                     'Content-Type' => 'application/json',
                 ],
                 $body
