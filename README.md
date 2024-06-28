@@ -26,7 +26,7 @@ $gateway->setConsumerSecret('');
 $gateway->setPassKey('');
 $gateway->setTestMode('false'); 
 
-$response = $gateway->purchase([
+$response = $gateway->payment([
   'amount' => '100',
   'phone_number' => '254708374149',
   'account' => 'apitest',
