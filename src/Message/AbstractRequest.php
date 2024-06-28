@@ -60,7 +60,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->getParameter('storenumber');
     }
 
-    public function setStoreCode($value)
+    public function setStoreNumber($value)
     {
         return $this->setParameter('storenumber', $value);
     }
