@@ -14,16 +14,17 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return [
-            'storenumber' => '',
-            'pt_number' => '',
             'consumer_key' => '',
             'consumer_secret' => '',
+            'storenumber' => '',
+            'pt_number' => '',
+            'passkey' => '',
             'token' => '',
             'testMode' => false,
         ];
     }
 
-    public function getConsumerKey()
+    public function getConsumerKey(): string
     {
         return $this->getParameter('consumer_key');
     }
@@ -33,7 +34,7 @@ class Gateway extends AbstractGateway
         return $this->setParameter('consumer_key', $value);
     }
 
-    public function getConsumerSecret()
+    public function getConsumerSecret(): string
     {
         return $this->getParameter('consumer_secret');
     }
@@ -73,12 +74,90 @@ class Gateway extends AbstractGateway
         return $this->setParameter('passkey', $value);
     }
 
-    public function purchase(array $parameters = [])
+    /**
+     * Get OAuth 2.0 access token.
+     *
+     * @param bool $createIfNeeded [optional] - If there is not an active token present, should we create one?
+     * @return string
+     */
+    public function getToken($createIfNeeded = true)
     {
-        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaPurchaseRequest', $parameters);
+        if ($createIfNeeded && !$this->hasToken()) {
+            $response = $this->createToken()->send();
+            if ($response->isSuccessful()) {
+                $data = $response->getData();
+                if (isset($data['access_token'])) {
+                    $this->setToken($data['access_token']);
+                    $this->setTokenExpires(time() + $data['expires_in']);
+                }
+            }
+        }
+        return $this->getParameter('token');
     }
 
-    public function completePurchase(array $parameters = [])
+    /**
+     * Create OAuth 2.0 access token request.
+     *
+     * @return \Omnipay\Mpesa\Message\MpesaTokenRequest
+     */
+    public function createToken()
+    {
+        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaTokenRequest', array());
+    }
+
+    /**
+     * Set OAuth 2.0 access token.
+     *
+     * @param string $value
+     * @return MpesaGateway provides a fluent interface
+     */
+    public function setToken($value)
+    {
+        return $this->setParameter('token', $value);
+    }
+
+    /**
+     * Get OAuth 2.0 access token expiry time.
+     *
+     * @return integer
+     */
+    public function getTokenExpires()
+    {
+        return $this->getParameter('tokenExpires');
+    }
+
+    /**
+     * Set OAuth 2.0 access token expiry time.
+     *
+     * @param integer $value
+     * @return MpesaGateway provides a fluent interface
+     */
+    public function setTokenExpires($value)
+    {
+        return $this->setParameter('tokenExpires', $value);
+    }
+
+    /**
+     * Is there a bearer token and is it still valid?
+     *
+     * @return bool
+     */
+    public function hasToken()
+    {
+        $token = $this->getParameter('token');
+        $expires = $this->getTokenExpires();
+        if (!empty($expires) && !is_numeric($expires)) {
+            $expires = strtotime($expires);
+        }
+        return !empty($token) && time() < $expires;
+    }
+
+    public function payment(array $parameters = [])
+    {
+        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaPaymentRequest', $parameters);
+    }
+
+    public function confirmPyament(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\Mpesa\Message\CompletePurchaseRequest', $parameters);
     }
