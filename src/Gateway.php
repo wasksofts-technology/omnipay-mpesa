@@ -23,6 +23,55 @@ class Gateway extends AbstractGateway
         ];
     }
 
+    public function getConsumerKey()
+    {
+        return $this->getParameter('consumer_key');
+    }
+
+    public function setConsumerKey($value)
+    {
+        return $this->setParameter('consumer_key', $value);
+    }
+
+    public function getConsumerSecret()
+    {
+        return $this->getParameter('consumer_secret');
+    }
+
+    public function setConsumerSecret($value)
+    {
+        return $this->setParameter('consumer_secret', $value);
+    }
+
+    public function getStoreNumber()
+    {
+        return $this->getParameter('storenumber');
+    }
+
+    public function setStoreCode($value)
+    {
+        return $this->setParameter('storenumber', $value);
+    }
+
+    public function getPTNumber()
+    {
+        return $this->getParameter('pt_number');
+    }
+
+    public function setPTNumber($value)
+    {
+        return $this->setParameter('pt_number', $value);
+    }
+
+    public function getPassKey()
+    {
+        return $this->getParameter('passkey');
+    }
+
+    public function setPassKey($value)
+    {
+        return $this->setParameter('passkey', $value);
+    }
 
     public function purchase(array $parameters = [])
     {
