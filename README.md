@@ -18,53 +18,54 @@ Just want to see some code?
 ```php
 use Omnipay\Omnipay;
 
-      $gateway = Omnipay::create('Mpesa');
-      $gateway->setStoreNumber('174379');
-      $gateway->setPTNumber('174379'); //paybill number or TILL number
-      $gateway->setConsumerKey('');
-      $gateway->setConsumerSecret('');
-      $gateway->setPassKey('');
-      $gateway->setTestMode('sandbox'); 
+$gateway = Omnipay::create('Mpesa');
+$gateway->setStoreNumber('174379');
+$gateway->setPTNumber('174379'); //paybill number or TILL number
+$gateway->setConsumerKey('');
+$gateway->setConsumerSecret('');
+$gateway->setPassKey('');
+$gateway->setTestMode('false'); 
 
-          $response = $gateway->purchase(array(
-             'amount' => '100',
-             'phone_number' => '254708374149',
-             'account' => 'apitest',
-             'description' => 'This is a purchase',
-             'callbackUrl' => 'https://example.com/callback_url.php',
-           ))->send();
+$response = $gateway->purchase([
+  'amount' => '100',
+  'phone_number' => '254708374149',
+  'account' => 'apitest',
+  'description' => 'This is a purchase',
+  'callbackUrl' => 'https://example.com/callback_url.php',
+])->send();
            
            
-           if ($response->isSuccessful()) {
-                 echo "Check phone and Input your pin to purchase!";
-           }else{
-               // Payment failed
-               return $response->getMessage();
-          } 
+if ($response->isSuccessful()) {
+    echo "Check phone and Input your pin to purchase!";
+}else{
+   // Payment failed
+    echo $response->getMessage();
+} 
 
-          $data = $response->getData();
-          echo '<pre>';print_r($data);echo '</pre>';
+$data = $response->getData();
+echo '<pre>';print_r($data);echo '</pre>';
 
 ##  Your callback url should have this:
-    /**
-     * Use this to process the STK push request callback
-     */
-        $callbackJSONData=file_get_contents('php://input');
-        $callbackData=json_decode($callbackJSONData);
+/**
+* Use this to process the STK push request callback
+*/
 
-        $result=[
-            "resultDesc"=>$callbackData->Body->stkCallback->ResultDesc,
-            "resultCode"=>$callbackData->Body->stkCallback->ResultCode,
-            "merchantRequestID"=>$callbackData->Body->stkCallback->MerchantRequestID,
-            "checkoutRequestID"=>$callbackData->Body->stkCallback->CheckoutRequestID,
-            "amount"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[0]->Value,
-            "mpesaReceiptNumber"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[1]->Value,
-            "transactionDate"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[3]->Value,
-            "phoneNumber"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[4]->Value
-        ];
+$callbackJSONData=file_get_contents('php://input');
+$callbackData=json_decode($callbackJSONData);
 
-        return json_encode($result);
-    //you can save json_data on database
+$result=[
+"resultDesc"=>$callbackData->Body->stkCallback->ResultDesc,
+"resultCode"=>$callbackData->Body->stkCallback->ResultCode,
+"merchantRequestID"=>$callbackData->Body->stkCallback->MerchantRequestID,
+"checkoutRequestID"=>$callbackData->Body->stkCallback->CheckoutRequestID,
+"amount"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[0]->Value,
+"mpesaReceiptNumber"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[1]->Value,
+"transactionDate"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[3]->Value,
+"phoneNumber"=>$callbackData->Body->stkCallback->CallbackMetadata->Item[4]->Value
+];
+
+return json_encode($result);
+//you can save json_data on database
     
  ## c2b simulation 
  We are implementing c2b  we will update soon
@@ -109,12 +110,6 @@ or better yet, fork the library and submit a pull request.
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Testing
-
-``` bash
-$ composer test
-```
 
 ## Contributing
 
