@@ -66,7 +66,8 @@ $result=[
 
 return json_encode($result);
 //you can save json_data on database
-    
+```
+
  ## c2b simulation 
  We are implementing c2b  we will update soon
  
