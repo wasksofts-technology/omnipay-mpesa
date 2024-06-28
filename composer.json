@@ -1,0 +1,34 @@
+{
+    "name": "wasksofts-technology/omnipay-mpesa",
+    "type": "library",
+    "description": "lipa na mpesa omnipay gateway",
+    "keywords": [
+        "omnipay",
+        "mpesa",
+        "lipa na mpesa"
+    ],
+    "homepage": "https://github.com/wasksofts-technology/omnipay-mpesa",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "steven kamanu",
+            "email": "mukamanusteven@gmail.com",
+            "homepage": "https://wasksofts.com"
+        }
+    ], 
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\Mpesa\\": "src"
+        }
+    },
+   "require": {
+        "php": "^7",
+        "omnipay/common": "^3"
+    },
+     "extra": {
+        "branch-alias": {
+            "dev-master": "v1.0-dev"
+        }
+    }
+    ,"minimum-stability": "stable"
+}
