@@ -10,25 +10,19 @@ class MpesaTokenRequest extends AbstractRequest
 {
     public function getData()
     {
-        return array('grant_type' => 'client_credentials');
+        return null;
     }
 
-    protected function getEndpoint()
+    public function sendData($body = null)
     {
-        return parent::getEndpoint() . '/oauth/v1/generate?grant_type=client_credentials';
-    }
-
-    public function sendData($data)
-    {
-        $body = $data ? http_build_query($data, '', '&') : null;
         $httpResponse = $this->httpClient->request(
             'GET',
-            $this->getEndpoint(),
-            array(
+            parent::getEndpoint() . 'oauth/v1/generate?grant_type=client_credentials',
+            [
                 'Accept' => 'application/json',
                 'Authorization' => 'Basic ' . base64_encode("{$this->getConsumerKey()}:{$this->getConsumerSecret()}"),
-            ),
-            ''
+            ],
+            $body
         );
         // Empty response body should be parsed also as and empty array
         $body = (string) $httpResponse->getBody()->getContents();
