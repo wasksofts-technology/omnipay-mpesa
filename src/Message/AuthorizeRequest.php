@@ -19,9 +19,7 @@ class AuthorizeRequest extends AbstractRequest
             'phone_number'
         );
 
-        $items = $this->getItems();
         $timestamp = date('YmdHis');
-
         $data['BusinessShortCode'] = $this->getStoreNumber();
         $data['Password'] = $this->generatePassword($timestamp);
         $data['Timestamp'] =  $timestamp;
@@ -80,22 +78,5 @@ class AuthorizeRequest extends AbstractRequest
     public function generatePassword($timesatamp)
     {
         return  base64_encode($this->getStorenumber() . $this->getPassKey() . $timesatamp);
-    }
-
-    /**
-     * Get transaction endpoint.
-     *
-     * Authorization of payments is done using the /payment resource.
-     *
-     * @return string
-     */
-    protected function getEndpoint()
-    {
-        return parent::getEndpoint() . 'mpesa/stkpush/v1/processrequest';
-    }
-
-    protected function createResponse($data, $statusCode)
-    {
-        return $this->response = new Response($this, $data, $statusCode);
     }
 }
