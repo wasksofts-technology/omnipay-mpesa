@@ -24,7 +24,7 @@ $gateway->setPTNumber('174379'); //paybill number or TILL number
 $gateway->setConsumerKey('');
 $gateway->setConsumerSecret('');
 $gateway->setPassKey('');
-$gateway->setTestMode('false'); 
+$gateway->setTestMode(false); 
 
 $response = $gateway->payment([
   'amount' => '100',
