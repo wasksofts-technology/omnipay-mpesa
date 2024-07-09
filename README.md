@@ -122,7 +122,7 @@ If you discover any security related issues, please email mukamanusteven@gmail.c
 
 ## Credits
 
-- [wasksofts](https://github.com/wasksofts)
+- [wasksofts technology](https://github.com/wasksofts)
 - [All Contributors](../../contributors)
 
 ## License
