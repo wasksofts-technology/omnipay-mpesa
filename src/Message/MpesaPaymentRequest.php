@@ -6,7 +6,7 @@
 
 namespace Omnipay\Mpesa\Message;
 
-class MpesaPurchaseRequest extends AuthorizeRequest
+class MpesaPaymentRequest extends AuthorizeRequest
 {
     public function getData()
     {
