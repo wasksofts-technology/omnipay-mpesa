@@ -34,6 +34,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     protected $testEndpoint = 'https://sandbox.safaricom.co.ke/';
 
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
+    }
+
     public function getConsumerKey()
     {
         return $this->getParameter('consumer_key');
@@ -52,6 +62,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function setConsumerSecret($value)
     {
         return $this->setParameter('consumer_secret', $value);
+    }
+
+    public function getToken()
+    {
+        return $this->getParameter('token');
+    }
+
+    public function setToken($value)
+    {
+        return $this->setParameter('token', $value);
     }
 
     public function getStoreNumber()
@@ -86,17 +106,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     protected function getEndpoint()
     {
-        return ($this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint);
-    }
-    public function getToken()
-    {
-        return $this->getParameter('token');
+        return ($this->getTestMode() == false ? $this->testEndpoint : $this->liveEndpoint);
     }
 
-    public function setToken($value)
-    {
-        return $this->setParameter('token', $value);
-    }
 
     public function sendData($data)
     {
@@ -104,14 +116,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
         // a bit fussy about data formats and ordering.  Perhaps hook to whatever
         // logging engine is being used.
         $body = $this->toJSON($data);
-        $token = $this->getToken();
         try {
             $httpResponse = $this->httpClient->request(
                 'POST',
                 $this->getEndpoint() . 'mpesa/stkpush/v1/processrequest',
                 [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer ' . $this->getToken(),
                     'Content-Type' => 'application/json',
                 ],
                 $body
