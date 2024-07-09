@@ -20,8 +20,18 @@ class Gateway extends AbstractGateway
             'storenumber' => '',
             'pt_number' => '',
             'passkey' => '',
-            'testMode' => false,
+            // 'testMode' => false,
         ];
+    }
+
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
     }
 
     public function getConsumerKey(): string
@@ -171,6 +181,6 @@ class Gateway extends AbstractGateway
 
     public function confirmPyament(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\Mpesa\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Mpesa\Message\ConfirmPyamentRequest', $parameters);
     }
 }
