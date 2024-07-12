@@ -46,9 +46,8 @@ $data = $response->getData();
 echo '<pre>';print_r($data);echo '</pre>';
 ```
 ##  Your callback url should have this:
-/**
-* Use this to process the STK push request callback
-*/
+Use this to process the STK push request callback
+
 ```php
 $callbackJSONData=file_get_contents('php://input');
 $callbackData=json_decode($callbackJSONData);
@@ -67,7 +66,7 @@ $result=[
 return json_encode($result);
 //you can save json_data on database
 ```
-#stkpushquery 
+## stkpushquery 
 ```
  $response = $gateway->confirmPayment([
  'checkout_request_id' => 'ws_CO_12072024131357408712244372'
@@ -79,7 +78,7 @@ return json_encode($result);
  ```
  $response = $gateway->registerUrl()->send();
  ```
-  //calback for c2b
+ ## calback for c2b
  ```
  $callbackJSONData=file_get_contents('php://input');
  $callbackData=json_decode($callbackJSONData);
