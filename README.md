@@ -44,12 +44,12 @@ if ($response->isSuccessful()) {
 
 $data = $response->getData();
 echo '<pre>';print_r($data);echo '</pre>';
-
+```
 ##  Your callback url should have this:
 /**
 * Use this to process the STK push request callback
 */
-
+```php
 $callbackJSONData=file_get_contents('php://input');
 $callbackData=json_decode($callbackJSONData);
 
