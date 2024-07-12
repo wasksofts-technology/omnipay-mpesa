@@ -2,11 +2,8 @@
 
 namespace Omnipay\Mpesa\Message;
 
-/**
- * Authorize Request
- *
- * @method Response send()
- */
+use Omnipay\Common\Exception\InvalidResponseException;
+
 class MpesaConfirmPaymentRequest extends AbstractRequest
 {
     public function getData()
@@ -20,6 +17,7 @@ class MpesaConfirmPaymentRequest extends AbstractRequest
         $data['Password'] = $this->generatePassword($timestamp);
         $data['Timestamp'] =  $timestamp;
         $data['CheckoutRequestID'] = $this->getCheckoutRequestID();
+        return $data;
     }
 
     public function getCheckoutRequestID()
@@ -35,5 +33,30 @@ class MpesaConfirmPaymentRequest extends AbstractRequest
     public function generatePassword($timesatamp)
     {
         return  base64_encode($this->getStorenumber() . $this->getPassKey() . $timesatamp);
+    }
+
+    public function sendData($data)
+    {
+        $body = $this->toJSON($data);
+        try {
+            $httpResponse = $this->httpClient->request(
+                'POST',
+                $this->getEndpoint() .  'mpesa/stkpushquery/v1/query',
+                [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->getToken(),
+                    'Content-Type' => 'application/json',
+                ],
+                $body
+            );
+            $body = (string) $httpResponse->getBody()->getContents();
+            $jsonToArrayResponse = !empty($body) ? json_decode($body, true) : array();
+            return $this->response = $this->createResponse($jsonToArrayResponse, $httpResponse->getStatusCode());
+        } catch (\Exception $e) {
+            throw new InvalidResponseException(
+                'Error communicating with payment gateway: ' . $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 }
