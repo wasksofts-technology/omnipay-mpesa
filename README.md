@@ -67,13 +67,16 @@ $result=[
 return json_encode($result);
 //you can save json_data on database
 ```
- stkpushquery 
+#stkpushquery 
+```
  $response = $gateway->confirmPayment([
  'checkout_request_id' => 'ws_CO_12072024131357408712244372'
  ])->send();
- 
+ ```
  ## c2b 
+ 
  //implementation for registering url 
+ ```
  $response = $gateway->registerUrl()->send();
 
  //calback for c2b
@@ -84,9 +87,9 @@ return json_encode($result);
  $trx_id = $callbackData->TransID;
  $phone_number = $callbackData->MSISDN;
  $BillRefNumber = $callbackData->BillRefNumber;
-
- //you can save json_data on database
  
+ //you can save json_data on database
+ ```
  
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 7+. This package implements omnipay-lipa-na-mpesa support for Omnipay.
