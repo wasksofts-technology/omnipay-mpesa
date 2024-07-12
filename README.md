@@ -67,14 +67,29 @@ $result=[
 return json_encode($result);
 //you can save json_data on database
 ```
-
- ## c2b simulation 
- We are implementing c2b  we will update soon
+ stkpushquery 
+ $response = $gateway->confirmPayment([
+ 'checkout_request_id' => 'ws_CO_12072024131357408712244372'
+ ])->send();
  
+ ## c2b 
+ //implementation for registering url 
+ $response = $gateway->registerUrl()->send();
+
+ //calback for c2b
+ $callbackJSONData=file_get_contents('php://input');
+ $callbackData=json_decode($callbackJSONData);
+
+ $amount = $callbackData->TransAmount;
+ $trx_id = $callbackData->TransID;
+ $phone_number = $callbackData->MSISDN;
+ $BillRefNumber = $callbackData->BillRefNumber;
+
+ //you can save json_data on database
  
  
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
-processing library for PHP 5.3+. This package implements omnipay-lipa-na-mpesa support for Omnipay.
+processing library for PHP 7+. This package implements omnipay-lipa-na-mpesa support for Omnipay.
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
