@@ -2,11 +2,8 @@
 
 namespace Omnipay\Mpesa\Message;
 
-/**
- * Authorize Request
- *
- * @method Response send()
- */
+use Omnipay\Common\Exception\InvalidResponseException;
+
 class MpesaC2BRegisterURLRequest extends AbstractRequest
 {
     public function getData()
@@ -16,22 +13,14 @@ class MpesaC2BRegisterURLRequest extends AbstractRequest
             'confirmation_url',
             'validation_url',
             'pt_number',
+            'version',
         );
 
         $data['ShortCode'] = $this->getPTNumber();
         $data['ResponseType'] = $this->getStatus();
         $data['ConfirmationURL'] =  $this->getConfirmationURL();
         $data['ValidationURL'] = $this->getValidationURL();
-    }
-
-    public function getPTNumber()
-    {
-        return $this->getParameter('pt_number');
-    }
-
-    public function setPTNumber($value)
-    {
-        return $this->setParameter('pt_number', $value);
+        return $data;
     }
 
     public function getStatus()
@@ -62,5 +51,40 @@ class MpesaC2BRegisterURLRequest extends AbstractRequest
     public function setValidationURL($value)
     {
         return $this->setParameter('validation_url', $value);
+    }
+
+    public function getVersion()
+    {
+        return $this->getParameter('version');
+    }
+
+    public function setVersion($value)
+    {
+        return $this->setParameter('version', $value);
+    }
+
+    public function sendData($data)
+    {
+        $body = $this->toJSON($data);
+        try {
+            $httpResponse = $this->httpClient->request(
+                'POST',
+                $this->getEndpoint() .  'mpesa/c2b/' . $this->getVersion() . '/registerurl',
+                [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->getToken(),
+                    'Content-Type' => 'application/json',
+                ],
+                $body
+            );
+            $body = (string) $httpResponse->getBody()->getContents();
+            $jsonToArrayResponse = !empty($body) ? json_decode($body, true) : array();
+            return $this->response = $this->createResponse($jsonToArrayResponse, $httpResponse->getStatusCode());
+        } catch (\Exception $e) {
+            throw new InvalidResponseException(
+                'Error communicating with payment gateway: ' . $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 }
