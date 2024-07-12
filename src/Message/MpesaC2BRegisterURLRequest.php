@@ -7,7 +7,7 @@ namespace Omnipay\Mpesa\Message;
  *
  * @method Response send()
  */
-class AuthorizeRequest extends AbstractRequest
+class MpesaC2BRegisterURLRequest extends AbstractRequest
 {
     public function getData()
     {
