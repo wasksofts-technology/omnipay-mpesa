@@ -78,8 +78,9 @@ return json_encode($result);
  //implementation for registering url 
  ```
  $response = $gateway->registerUrl()->send();
-
- //calback for c2b
+ ```
+  //calback for c2b
+ ```
  $callbackJSONData=file_get_contents('php://input');
  $callbackData=json_decode($callbackJSONData);
 
