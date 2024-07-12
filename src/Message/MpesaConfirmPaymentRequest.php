@@ -12,11 +12,7 @@ class MpesaConfirmPaymentRequest extends AbstractRequest
     public function getData()
     {
         $this->validate(
-            'pt_number',
-            'password',
-            'timestamp',
             'checkout_request_id',
-
         );
 
         $timestamp = date('YmdHis');
