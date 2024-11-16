@@ -106,7 +106,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     protected function getEndpoint()
     {
-        return ($this->getTestMode() == false ? $this->testEndpoint : $this->liveEndpoint);
+        return ($this->getTestMode() == true ? $this->testEndpoint : $this->liveEndpoint);
     }
 
 
