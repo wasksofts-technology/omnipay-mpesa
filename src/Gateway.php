@@ -14,11 +14,12 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return [
+            'transaction_type' => '', //CustomerPayBillOnline//CustomerBuyGoodsOnline
             'consumer_key' => '',
             'consumer_secret' => '',
             'token' => '',
-            'pt_number' => '',
             'storenumber' => '',
+            'pt_number' => '',
             'passkey' => '',
             'testMode' => false,
         ];
@@ -32,6 +33,16 @@ class Gateway extends AbstractGateway
     public function setTestMode($value)
     {
         return $this->setParameter('testMode', $value);
+    }
+
+    public function getTransactionType()
+    {
+        return $this->getParameter('transaction_type');
+    }
+
+    public function setTransactionType($value)
+    {
+        return $this->setParameter('transaction_type', $value);
     }
 
     public function getConsumerKey(): string
@@ -165,24 +176,22 @@ class Gateway extends AbstractGateway
     public function createRequest($class, array $parameters = array())
     {
         if (!$this->hasToken() && $class != '\Omnipay\Mpesa\Message\MpesaTokenRequest') {
+            // This will set the internal token parameter which the parent
+            // createRequest will find when it calls getParameters().
             $this->getToken(true);
         }
 
         return parent::createRequest($class, $parameters);
     }
 
+
     public function payment(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\Mpesa\Message\MpesaPaymentRequest', $parameters);
     }
 
-    public function confirmPayment(array $parameters = [])
+    public function confirmPyament(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaConfirmPaymentRequest', $parameters);
-    }
-
-    public function registerUrl(array $parameters = [])
-    {
-        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaC2BRegisterURLRequest', $parameters);
+        return $this->createRequest('\Omnipay\Mpesa\Message\ConfirmPyamentRequest', $parameters);
     }
 }
