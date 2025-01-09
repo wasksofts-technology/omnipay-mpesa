@@ -23,7 +23,7 @@ class AuthorizeRequest extends AbstractRequest
         $data['BusinessShortCode'] = $this->getStoreNumber();
         $data['Password'] = $this->generatePassword($timestamp);
         $data['Timestamp'] =  $timestamp;
-        $data['TransactionType'] = 'CustomerPayBillOnline';
+        $data['TransactionType'] = $this->getTransactionType();
         $data['CallBackURL'] = $this->getCallBackUrl();
         $data['Amount'] = $this->getAmount();
         $data['PartyA'] = $this->getPhoneNumber();
