@@ -19,6 +19,7 @@ Just want to see some code?
 use Omnipay\Omnipay;
 
 $gateway = Omnipay::create('Mpesa');
+$gateway->setTransactionType('CustomerPayBillOnline');//CustomerPayBillOnline or CustomerBuyGoodsOnline
 $gateway->setStoreNumber('174379');
 $gateway->setPTNumber('174379'); //paybill number or TILL number
 $gateway->setConsumerKey('');
