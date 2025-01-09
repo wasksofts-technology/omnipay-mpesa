@@ -44,6 +44,17 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('testMode', $value);
     }
 
+    public function getTransactionType()
+    {
+        return $this->getParameter('transaction_type');
+    }
+
+    public function setTransactionType($value)
+    {
+        return $this->setParameter('transaction_type', $value);
+    }
+
+
     public function getConsumerKey()
     {
         return $this->getParameter('consumer_key');
@@ -106,7 +117,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     protected function getEndpoint()
     {
-        return ($this->getTestMode() ? $this->liveEndpoint: $this->testEndpoint );
+        return $this->getTestMode() ? $this->liveEndpoint : $this->testEndpoint;
     }
 
 
