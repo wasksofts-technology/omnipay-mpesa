@@ -73,7 +73,7 @@ return json_encode($result);
  'checkout_request_id' => 'ws_CO_12072024131357408712244372'
  ])->send();
  ```
- ## c2b register url
+ ## C2B Register URL
  
  //implementation for registering url 
  ```php
@@ -85,7 +85,7 @@ return json_encode($result);
 ])->send();
 
  ```
- ## calback for c2b
+ ## Callback for C2B
  ```php
  $callbackJSONData=file_get_contents('php://input');
  $callbackData=json_decode($callbackJSONData);
