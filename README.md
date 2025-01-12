@@ -68,15 +68,15 @@ return json_encode($result);
 //you can save json_data on database
 ```
 ## stkpushquery 
-```
+```php
  $response = $gateway->confirmPayment([
  'checkout_request_id' => 'ws_CO_12072024131357408712244372'
  ])->send();
  ```
- ## c2b 
+ ## c2b register url
  
  //implementation for registering url 
- ```
+ ```php
  $response = $gateway->registerUrl([
     'status' => 'Completed',//Completed or Cancelled
     'confirmation_url' => 'https://confirmation_url',
@@ -86,7 +86,7 @@ return json_encode($result);
 
  ```
  ## calback for c2b
- ```
+ ```php
  $callbackJSONData=file_get_contents('php://input');
  $callbackData=json_decode($callbackJSONData);
 
