@@ -77,7 +77,13 @@ return json_encode($result);
  
  //implementation for registering url 
  ```
- $response = $gateway->registerUrl()->send();
+ $response = $gateway->registerUrl([
+    'status' => 'Completed',//Completed or Cancelled
+    'confirmation_url' => 'https://confirmation_url',
+    'validation_url' => 'https://validation_url',
+    'version' => 'v2' ,//v1 or v2
+])->send();
+
  ```
  ## calback for c2b
  ```
