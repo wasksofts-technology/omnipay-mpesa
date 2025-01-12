@@ -190,8 +190,8 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Mpesa\Message\MpesaPaymentRequest', $parameters);
     }
 
-    public function confirmPyament(array $parameters = [])
+    public function confirmPayment(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\Mpesa\Message\ConfirmPyamentRequest', $parameters);
+        return $this->createRequest('\Omnipay\Mpesa\Message\MpesaConfirmPaymentRequest', $parameters);
     }
 }
