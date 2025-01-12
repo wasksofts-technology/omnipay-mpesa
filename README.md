@@ -67,7 +67,7 @@ $result=[
 return json_encode($result);
 //you can save json_data on database
 ```
-## stkpushquery 
+## STK Push Query 
 ```php
  $response = $gateway->confirmPayment([
  'checkout_request_id' => 'ws_CO_12072024131357408712244372'
