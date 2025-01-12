@@ -12,7 +12,6 @@ class MpesaC2BRegisterURLRequest extends AbstractRequest
             'status',
             'confirmation_url',
             'validation_url',
-            'pt_number',
             'version',
         );
 
